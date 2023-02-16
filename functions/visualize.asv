@@ -74,7 +74,7 @@ for id = 1:numWaveguides
                 case 1
                     colors = linspecer(numWaveguides);
                 case 2
-                    colors = cmap(floor(linspace(1,Ncmap-20,numWaveguides)), :);
+                    colors = cmap(floor(linspace(1,Ncmap,numWaveguides)), :);
                 otherwise
                     error('Unknown coloring parameter')
             end
@@ -93,12 +93,7 @@ if parameters.coloring == 2
     cbar = colorbar;
     ylabel(cbar,'$\Delta n$','FontSize',16, 'interpreter','latex');
     colormap(gray)
-    if parameters.type == 2
-        warning('Colorbar scale does not represent actual ref. index change yet')
-    end
 end
-
-
 
 % Add lighting and set material properties
 camlight
