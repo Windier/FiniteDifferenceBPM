@@ -18,19 +18,22 @@ y = x;
 
 n0 = 1.5078;
 lambda = 640e-3;
+
 k0 = 2*pi/lambda;
 k = k0*n0;
 
 dz = 20;
 zFinal = 5000;
+
 Nz = round(zFinal/dz);
 zList = linspace(0,zFinal, Nz);
 
 pmlWidth = L/8;
-
-%% Graphics
 insideIndex = round(N*[pmlWidth/L, 1-pmlWidth/L]);
 region = insideIndex(1):insideIndex(2);
+
+
+%% Graphics
 fig1 = figure(1);
 fig1.Position = [336 155 500 500];
 fig1.Color = 'w';
@@ -53,8 +56,8 @@ ylabel('$y(\mu \mathrm{m})$','interpreter', 'latex')
 %% Initial Conditions
 w0 = 10;
 ang = [0.0, 0.0];
-beamAng = 90*(pi/180);
-beamDist = 8.0;
+beamAng = 20*(pi/180);
+beamDist = 0.0;
 
 G = @(x,w0) exp(-x.^2./w0.^2);
 LG = rho.*G(X,w0/2).*G(Y,w0/2).*exp(1i*phi);
@@ -68,31 +71,15 @@ U = createInitialField(F, X, Y, w0, k, beamAng, beamDist, ang);
 
 
 %% Waveguide Construction
-guideWaist = 0.8;
-guideSeparation = 0.0;
+guideRadius = 0.8;
+guideSeparation = 3.0;
 
 rect = @(x,w0) double(abs(x/w0) < 1/2);
 rho = @(x,y) sqrt(x.^2 + y.^2);
-K1 = @(X,Y) rect(rho(X,Y),8*guideWaist);
-K2 = @(X,Y) rect(rho(X,Y),4*guideWaist);
 
-WG1 = @(a,b) K1(X-a,Y-b);
-WG2 = @(a,b) K2(X-a,Y-b);
+WG = @(a,b) K(X-a,Y-b);
 
-
-curvedWaveguide = @curvedWaveguide;
-
-L1 = 2000;
-L2 = 1400;
-dist = beamDist;
-
-
-waveguides = {@(z) curvedWaveguide(z,[-dist,0],[-dist/2,0], 0, L1, WG1, 2.2e-3);
-              @(z) curvedWaveguide(z,[ dist,0],[ dist/2,0], 0, L1, WG2, 2.2e-3);
-              @(z) curvedWaveguide(z,[-dist/2,0],[-dist/2,0], L1, L2, WG1, 2.2e-3);
-              @(z) curvedWaveguide(z,[ dist/2,0],[ dist/2,0], L1, L2, WG2, 2.2e-3);
-              @(z) curvedWaveguide(z,[-dist/2,0],[-dist,0], L1+L2, zFinal-L2-L1, WG1, 2.2e-3);
-              @(z) curvedWaveguide(z,[ dist/2,0],[ dist,0], L1+L2, zFinal-L2-L1, WG2, 2.2e-3);};
+waveguides = {@(z) curvedWaveguide(z,[0,0],[0,0], 0, zFinal, WG, 2.2e-3);};
 
 
 %% Visualization
@@ -125,3 +112,28 @@ simParams = struct( ...
     'plotStep', 1);
 
 U = FDpropagate(U, simParams, zList, waveguides,{img1});
+
+function out = K(X,Y)
+    rect = @(x,w0) double(abs(x/w0) < 1/2);
+    % Elipticity shows as unbalanced x and y
+    rho = @(x,y) sqrt(x.^2 + 0.4*y.^2); 
+
+    numWG = 18; %num of waveguides
+    radiusWG = 2; %radius of each waveguide
+    distance = 10; % distance from the waveguide to the center (0,0)
+
+    thetaStep = 2*pi/numWG;
+
+    out = zeros(size(X));
+    for i = 0:(numWG-1)
+        x0 = distance*cos(i*thetaStep);
+        y0 = distance*sin(i*thetaStep);
+        out = out + rect(rho(X-x0,Y-y0), radiusWG);
+    end
+end
+
+
+
+
+
+

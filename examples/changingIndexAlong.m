@@ -23,7 +23,6 @@ k = k0*n0;
 
 dz = 20;
 zFinal = 5000;
-dist = 7.5;
 Nz = round(zFinal/dz);
 zList = linspace(0,zFinal, Nz);
 

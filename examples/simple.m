@@ -18,20 +18,22 @@ y = x;
 
 n0 = 1.5078;
 lambda = 640e-3;
+
 k0 = 2*pi/lambda;
 k = k0*n0;
 
 dz = 20;
 zFinal = 5000;
-dist = 7.5;
+
 Nz = round(zFinal/dz);
 zList = linspace(0,zFinal, Nz);
 
 pmlWidth = L/8;
-
-%% Graphics
 insideIndex = round(N*[pmlWidth/L, 1-pmlWidth/L]);
 region = insideIndex(1):insideIndex(2);
+
+
+%% Graphics
 fig1 = figure(1);
 fig1.Position = [336 155 500 500];
 fig1.Color = 'w';
@@ -92,7 +94,7 @@ fig2.Color = 'w';
 % coloring: 1 (by segment), 2 (by refractive index change)
 params = struct( ...
     'type', 1, ...
-    'coloring', 1, ...
+    'coloring', 2, ...
     'dz', dz, ...
     'n0', n0, ...
     'L', L, ...

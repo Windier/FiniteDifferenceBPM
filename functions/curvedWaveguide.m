@@ -1,8 +1,8 @@
  function out = curvedWaveguide(z,ri,rf,zi,h,fun,deltaN)
 
     rdif = rf - ri;
+    
     phi = atan2(rdif(2),rdif(1));
-        
     d = sqrt(sum(rdif.^2));
     
     if and((z>=zi),(z<zi+h))

@@ -23,7 +23,6 @@ k = k0*n0;
 
 dz = 20;
 zFinal = 5000;
-dist = 7.5;
 Nz = round(zFinal/dz);
 zList = linspace(0,zFinal, Nz);
 
@@ -90,7 +89,7 @@ L2 = 2000;
 
 waveguides = {@(z) curvedWaveguide(z,[0,0],[0,0], 0, L1, WG1, 1.2e-3);
               @(z) curvedWaveguide(z,[0,0],[0,0], L1, L2, WG2, 4.2e-3);
-              @(z) curvedWaveguide(z,[0,0],[0,0], L1+L2, zFinal, WG3, 4.3e-3);};
+              @(z) curvedWaveguide(z,[0,0],[0,0], L1+L2, zFinal, WG3, 1.2e-3);};
 
 
 %% Visualization
