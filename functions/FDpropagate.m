@@ -2,15 +2,15 @@ function [U] = FDpropagate(U0, parameters, zList, waveguide, varargin)
 
 % U0: Initial field distribution,
 
-% parameters: Parameters passed to the solver which are:
+% parameters: Struct passed to the solver which are:
 % N: number of pixels in one dimension,
 % L: physical length of the computational window,
 % n0: base refractive index,
 % lambda: operating wavelength
-% Example: params = struct('N', N, ...
-%                          'L', L, ...
-%                          'n0', n0, ...
-%                          'lambda', lambda);
+% Example: simParams = struct('N', N, ...
+%                             'L', L, ...
+%                             'n0', n0, ...
+%                             'lambda', lambda);
 
 % zList, waveguide
 
@@ -23,6 +23,11 @@ if nargin == 5
     plotResults = true;
     imageHandlers = varargin{1};
     numImages = length(imageHandlers);
+    try 
+        plotStep = parameters.plotStep;
+    catch
+        plotStep = 1;
+    end
 end
 
 rect = @(x,w0) double(abs(x/w0) < 1/2);
@@ -131,7 +136,7 @@ for m = 1:Nz
     z = zList(m);
     n = applyRefIndex(z, waveguide, n0);
 
-    if mod(m, 10) == 0
+    if mod(m, plotStep) == 0
         if plotResults
 
             switch numImages
