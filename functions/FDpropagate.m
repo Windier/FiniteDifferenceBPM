@@ -81,9 +81,9 @@ qx = 1./(1 - 1i*sigmay./(freq*eps0*np.^2));
 M = N-2;
 M2 = M*M;
 id = (1:(M*M))';
-
-maskud = (1 - heaviside(mod(id-1,M)-(M-1.5)));
-maskld = (1 - heaviside(mod(id-2,M)-(M-1.5)));
+heav = @(x) 0.5*(1 + sign(x));
+maskud = (1 - heav(mod(id-1,M)-(M-1.5)));
+maskld = (1 - heav(mod(id-2,M)-(M-1.5)));
 
 % Indices that exclude boundaries at i,j = 1 and N
 id = 2:N-1;

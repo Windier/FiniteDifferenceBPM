@@ -23,8 +23,9 @@ colorSegments = linspecer(numWaveguides);
 for id = 1:numWaveguides
 
     waveguide = waveguides{id};
-    zmin = waveguide(0).zlim(1);
-    zmax = waveguide(0).zlim(2);
+    zlim = getfield(waveguide(0),'zlim');
+    zmin = zlim(1);
+    zmax = zlim(2);
     Nz = floor((zmax - zmin)/dz);
 
     z = linspace(zmin, zmax, Nz);
@@ -40,7 +41,8 @@ for id = 1:numWaveguides
                 nVol(:,i,:) = applyRefIndex(zmin + (i-1)*dz, waveguides(id), n0);
             end
 
-            level = n0 + 0.5*waveguide(0).deltaN;
+            wg = waveguide(0);
+            level = n0 + 0.5*wg.deltaN;
 
             switch parameters.coloring
                 case 1
@@ -49,7 +51,7 @@ for id = 1:numWaveguides
                     % Set the face color
                     set(p, 'FaceColor', colorSegments(id,:));
                 case 2
-                    [faces, verts, colors] = isosurface(xVol, yVol, zVol, nVol, level, waveguide(0).deltaN*ones(size(nVol)));
+                    [faces, verts, colors] = isosurface(xVol, yVol, zVol, nVol, level, wg.deltaN*ones(size(nVol)));
                     p = patch('Vertices', verts,'Faces',faces,'FaceColor', 'interp', ...
                         'FaceVertexCData', colors);
                 otherwise
@@ -65,7 +67,8 @@ for id = 1:numWaveguides
             x = zeros(1,Nz);
             y = zeros(1,Nz);
             for i = 1:Nz
-                center = waveguides{id}(zmin + (i-1)*dz).center;
+                wg = waveguides{id}(zmin + (i-1)*dz);
+                center = wg.center;
                 x(i) = center(1);
                 y(i) = center(2);
             end

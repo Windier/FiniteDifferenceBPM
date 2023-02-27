@@ -2,7 +2,8 @@ function n = applyRefIndex(z, waveguides, n0)
 
 numWaveguides = size(waveguides,1);
 if numWaveguides ~= 0
-    n = n0*ones(size(waveguides{1}(z).fun(0,0)));
+    waveguide_at_z = waveguides{1}(z);
+    n = n0*ones(size(waveguide_at_z.fun(0,0)));
     for i = 1:numWaveguides
         % Get the ith waveguide and evaluate it at z
         waveguide = waveguides{i}(z);
