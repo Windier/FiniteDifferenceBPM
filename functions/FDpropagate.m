@@ -145,6 +145,11 @@ for m = 1:Nz
                 case 2
                     imageHandlers{1}.CData = abs(U).^2;
                     imageHandlers{2}.CData = angle(U);
+                case 3
+                    imageHandlers{1}.CData = abs(U).^2;
+                    imageHandlers{2}.CData = angle(U);
+                    imageHandlers{2}.CData = n;
+
                 otherwise
 
             end
