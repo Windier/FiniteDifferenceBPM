@@ -54,7 +54,7 @@ ylabel('$y(\mu \mathrm{m})$','interpreter', 'latex')
 w0 = 10;
 ang = [0.0, 0.0];
 beamAng = 90*(pi/180);
-beamDist = 8.0;
+beamDist = 6.0;
 
 G = @(x,w0) exp(-x.^2./w0.^2);
 LG = rho.*G(X,w0/2).*G(Y,w0/2).*exp(1i*phi);
@@ -73,7 +73,7 @@ guideSeparation = 0.0;
 
 rect = @(x,w0) double(abs(x/w0) < 1/2);
 rho = @(x,y) sqrt(x.^2 + y.^2);
-K1 = @(X,Y) rect(rho(X,Y),8*guideWaist);
+K1 = @(X,Y) rect(rho(X,Y),4*guideWaist);
 K2 = @(X,Y) rect(rho(X,Y),4*guideWaist);
 
 WG1 = @(a,b) K1(X-a,Y-b);
@@ -82,8 +82,8 @@ WG2 = @(a,b) K2(X-a,Y-b);
 
 curvedWaveguide = @curvedWaveguide;
 
-L1 = 2000;
-L2 = 1400;
+L1 = 500;
+L2 = 4000;
 dist = beamDist;
 
 
