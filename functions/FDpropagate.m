@@ -142,6 +142,9 @@ for m = 1:Nz
             switch numImages
                 case 1
                     imageHandlers{1}.CData = abs(U).^2;
+                case 2
+                    imageHandlers{1}.CData = abs(U).^2;
+                    imageHandlers{2}.CData = angle(U);
                 otherwise
 
             end

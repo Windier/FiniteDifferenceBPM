@@ -52,6 +52,22 @@ set(gca,'FontSize',12, ...
 xlabel('$x(\mu \mathrm{m})$','interpreter', 'latex')
 ylabel('$y(\mu \mathrm{m})$','interpreter', 'latex')
 
+fig2 = figure(2);
+fig2.Position = [336+500 155 500 500];
+fig2.Color = 'w';
+img2 = imagesc(x,y,zeros(N));
+title('Phase','Interpreter','latex')
+cmap = gray;
+colormap(gca,cmap);
+colorbar
+axis image
+xlim([-L/2+pmlWidth, L/2-pmlWidth])
+ylim([-L/2+pmlWidth, L/2-pmlWidth])
+set(gca,'FontSize',12, ...
+    'TickLabelInterpreter','latex')
+xlabel('$x(\mu \mathrm{m})$','interpreter', 'latex')
+ylabel('$y(\mu \mathrm{m})$','interpreter', 'latex')
+
 
 %% Initial Conditions
 w0 = 3;
@@ -106,7 +122,7 @@ simParams = struct( ...
     'lambda', lambda, ...
     'plotStep', 1);
 
-U = FDpropagate(U, simParams, zList, waveguides,{img1});
+U = FDpropagate(U, simParams, zList, waveguides,{img1, img2});
 
 
 
