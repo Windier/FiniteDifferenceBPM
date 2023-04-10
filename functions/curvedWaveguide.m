@@ -1,6 +1,6 @@
  function out = curvedWaveguide(z,ri,rf,zi,h,fun,deltaN)
 
-    rdif = 2*rf - ri;
+    rdif = rf - ri;
     
     phi = atan2(rdif(2),rdif(1));
     d = sqrt(sum(rdif.^2));
@@ -32,7 +32,6 @@
     else
         x = NaN;
     end
-    center = ([cos(phi), -sin(phi); sin(phi), cos(phi)]*([x, 0] - ri)')' + ri;
-
+    center = ([cos(phi), -sin(phi); sin(phi), cos(phi)]*([x, 0] - ri)')' + [ri(1), 0];
     out = struct('active', true, 'center', center, 'fun', fun, 'zlim', [zi, zi+h], 'deltaN', deltaN);
 end
